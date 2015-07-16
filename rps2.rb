@@ -26,13 +26,23 @@ loop do
 	 	(players_pick == 's' && computers_pick == 'p')
 	 	puts "You Win!"
 	 	display_computers_pick (computers_pick)
-	 else
+	else
 	 	puts "You Lose!"
 	 	display_computers_pick (computers_pick)
 	end
 
-	puts "Play again? (y/n)"
-	break if gets.chomp.downcase != 'y'
+	# puts "Play again? (y/n)"
+	# break if gets.chomp.downcase != 'y'
+
+  puts "Play again? (y/n)"
+  answer = gets.chomp.downcase 
+
+  if answer == 'y'
+    next
+  else
+    break
+  end
+
 
 end
 
