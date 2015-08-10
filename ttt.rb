@@ -1,5 +1,5 @@
 require 'pry'
-
+WINNING_LINES = [[1,2,3], [4,5,6], [7,8,9], [1,4,7], [2,5,8], [3,6,9], [1,5,9], [3,5,7]]
 def initialize_board
   board = {}
   (1..9).each {|position| board[position] = ' '}
@@ -20,10 +20,14 @@ def empty_positions(board)
 end
 
 def player_picks_position(board) 
-  puts "Please pick a position: (1-9)"
-  position = gets.chomp.to_i
-  until empty_positions(board).include?(position) #empty[3456789]
-    puts 'Pick again:'
+  # begin
+  # puts "Please pick a position: (1-9)"
+  # position = gets.chomp.to_i
+  # end until empty_positions(board).include?(position) 
+  # board[position] = 'X'
+  position = ''
+  until empty_positions(board).include?(position) 
+    puts "Please pick a position: (1-9)"
     position = gets.chomp.to_i
   end
   board[position] = 'X'
@@ -35,26 +39,30 @@ def computer_picks_position(board)
 end
 
 def check_winner(board)
-  winning_lines = [[1,2,3], [4,5,6], [7,8,9], [1,4,7], [2,5,8], [3,6,9], [1,5,9], [3,5,7]]
-  winning_lines.each do |line|
-    return "Player" if board[line[0]] == 'X' and board[line[1]] == 'X' and board[line[2]] == 'X'
-    return "Computer" if board[line[0]] == 'O' and board[line[1]] == 'O' and board[line[2]] == 'O'
+  WINNING_LINES.each do |line|
+    return "Player" if board.values_at(*line).count('X') == 3
+    return "Computer" if board.values_at(*line).count('O') == 3
   end
   nil
 end
 
 board = initialize_board
 draw_board(board)
+winner = check_winner(board)
 
 begin
   player_picks_position(board)
+  draw_board(board)
+    break if check_winner(board)
   computer_picks_position(board)
   draw_board(board)
+    break if check_winner(board)
+  draw_board(board)
   winner = check_winner(board)
-end until winner || empty_positions(board).empty? #loop while false
+end until winner || empty_positions(board).empty? 
 
 if winner
-   puts "#{winner} won!"
+  puts "#{winner} won!"
 else
-   puts "It's a tie!"
+  puts "It's a tie!"
 end
