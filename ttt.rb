@@ -48,18 +48,18 @@ end
 
 board = initialize_board
 draw_board(board)
-winner = check_winner(board)
+
 
 begin
   player_picks_position(board)
   draw_board(board)
-    break if check_winner(board)
+    break if winner = check_winner(board) || empty_positions(board).empty? 
   computer_picks_position(board)
   draw_board(board)
-    break if check_winner(board)
+    break if winner = check_winner(board)|| empty_positions(board).empty? 
   draw_board(board)
   winner = check_winner(board)
-end until winner || empty_positions(board).empty? 
+end until winner || empty_positions(board).empty?  
 
 if winner
   puts "#{winner} won!"
